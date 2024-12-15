@@ -1,6 +1,7 @@
 package com.pluralsight.dealership.dealership_api.dao;
 
 import com.pluralsight.dealership.dealership_api.config.DatabaseConfiguration;
+import com.pluralsight.dealership.dealership_api.model.SalesContract;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;

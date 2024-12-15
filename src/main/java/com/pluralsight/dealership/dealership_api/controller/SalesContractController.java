@@ -1,6 +1,5 @@
 package com.pluralsight.dealership.dealership_api.controller;
 
-import com.pluralsight.dealership.dealership_api.dao.SalesContract;
 import com.pluralsight.dealership.dealership_api.dao.SalesContractDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
