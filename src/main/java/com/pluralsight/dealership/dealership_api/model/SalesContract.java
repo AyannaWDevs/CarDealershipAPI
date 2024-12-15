@@ -3,13 +3,24 @@ package com.pluralsight.dealership.dealership_api.model;
 import java.time.LocalDate;
 
 public class SalesContract extends Contract {
+
     private LocalDate salesDate;
     private double price;
+    private int contractID;
 
-    public SalesContract(int id, String vin, int customerId, int salespersonId, LocalDate salesDate, double price) {
-        super(id, vin, customerId, salespersonId);
+    // Constructor with all fields
+    public SalesContract(int contractID, String vin, int customerId, int salespersonId, LocalDate salesDate, double price) {
+        super(vin, customerId, salespersonId);  // Call to parent constructor (Contract)
+        this.contractID = contractID;
         this.salesDate = salesDate;
         this.price = price;
+    }
+
+    public SalesContract() {
+        super();
+    }
+
+    public SalesContract(int id, String vin, int customerId, LocalDate contractDate, double price, int salespersonId) {
     }
 
     @Override
@@ -20,7 +31,7 @@ public class SalesContract extends Contract {
     @Override
     public String formatContractDetails() {
         return "Sales Contract Details: " +
-                "\nID: " + getId() +
+                "\nID: " + getContractID() +
                 "\nVIN: " + getVin() +
                 "\nCustomer ID: " + getCustomerId() +
                 "\nSalesperson ID: " + getSalespersonId() +
@@ -28,7 +39,7 @@ public class SalesContract extends Contract {
                 "\nPrice: $" + price;
     }
 
-
+    // Getter and Setter for SalesDate
     public LocalDate getSalesDate() {
         return salesDate;
     }
@@ -37,6 +48,7 @@ public class SalesContract extends Contract {
         this.salesDate = salesDate;
     }
 
+    // Getter and Setter for Price
     public double getPrice() {
         return price;
     }
@@ -45,7 +57,12 @@ public class SalesContract extends Contract {
         this.price = price;
     }
 
-    public void setContractID(int id) {
+    // Getter and Setter for ContractID
+    public void setContractID(int contractID) {
+        this.contractID = contractID;
+    }
 
+    public int getContractID() {
+        return contractID;
     }
 }

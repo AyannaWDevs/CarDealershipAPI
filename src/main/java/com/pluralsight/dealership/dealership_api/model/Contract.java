@@ -14,6 +14,10 @@ public abstract class Contract {
         this.salespersonId = salespersonId;
     }
 
+    public Contract() {
+
+    }
+
     // Abstract methods for subclasses
     public abstract String getContractType(); // e.g., "Sales" or "Lease"
     public abstract String formatContractDetails();
