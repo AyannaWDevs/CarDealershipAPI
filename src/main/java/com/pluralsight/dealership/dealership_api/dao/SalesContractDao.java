@@ -3,12 +3,13 @@ package com.pluralsight.dealership.dealership_api.dao;
 import com.pluralsight.dealership.dealership_api.model.SalesContract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class SalesContractDao {
 
     private static final Logger logger = LoggerFactory.getLogger(SalesContractDao.class);
@@ -86,5 +87,31 @@ public class SalesContractDao {
         } catch (SQLException e) {
             logger.error("Error deleting sales contract", e);
         }
+    }
+    public SalesContract findSalesContractById(int id) {
+        SalesContract contract = null;
+        String sql = "SELECT * FROM sales_contracts WHERE id = ?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);  // Set the ID parameter in the query
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    // Create a new SalesContract object from the result set
+                    contract = new SalesContract(
+                            rs.getInt("id"),
+                            rs.getString("vin"),
+                            rs.getInt("customer_id"),
+                            rs.getInt("salesperson_id"),
+                            rs.getDate("sales_date").toLocalDate(),
+                            rs.getDouble("price")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log or handle the exception as needed
+        }
+        return contract;
     }
 }

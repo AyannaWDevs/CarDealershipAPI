@@ -21,6 +21,7 @@ public class SalesContract extends Contract {
     }
 
     public SalesContract(int id, String vin, int customerId, LocalDate contractDate, double price, int salespersonId) {
+
     }
 
     @Override

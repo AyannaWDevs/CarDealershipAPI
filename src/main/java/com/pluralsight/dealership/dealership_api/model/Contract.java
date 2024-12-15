@@ -18,6 +18,10 @@ public abstract class Contract {
 
     }
 
+    public Contract(String vin, int customerId, int salespersonId) {
+
+    }
+
     // Abstract methods for subclasses
     public abstract String getContractType(); // e.g., "Sales" or "Lease"
     public abstract String formatContractDetails();
