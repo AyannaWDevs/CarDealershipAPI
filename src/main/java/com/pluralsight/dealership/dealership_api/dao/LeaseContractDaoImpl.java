@@ -1,19 +1,28 @@
 package com.pluralsight.dealership.dealership_api.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class LeaseContractDaoImpl implements LeaseContractDao {
     private final String dbUrl;
     private final String dbUsername;
     private final String dbPassword;
 
-    public LeaseContractDaoImpl(String dbUrl, String dbUsername, String dbPassword) {
+    @Autowired
+    public LeaseContractDaoImpl(
+            @Value("${db.url}") String dbUrl,
+            @Value("${db.username}") String dbUsername,
+            @Value("${db.password}") String dbPassword) {
         this.dbUrl = dbUrl;
         this.dbUsername = dbUsername;
         this.dbPassword = dbPassword;
     }
+
 
     @Override
     public boolean addContract(LeaseContract leaseContract) {
@@ -105,4 +114,33 @@ public class LeaseContractDaoImpl implements LeaseContractDao {
             return false;
         }
     }
+
+    public List<LeaseContract> getLeaseInformationWithDateRange(int dealerID, Date startDate, Date endDate) {
+        List<LeaseContract> contracts = new ArrayList<>();
+        String query = "SELECT * FROM lease_contracts WHERE dealer_id = ? AND contract_date BETWEEN ? AND ?";
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, dealerID);
+            stmt.setDate(2, startDate);
+            stmt.setDate(3, endDate);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    contracts.add(new LeaseContract(
+                            rs.getInt("id"),
+                            rs.getString("vin"),
+                            rs.getInt("customer_id"),
+                            rs.getDate("contract_date").toLocalDate(),
+                            rs.getString("details"),
+                            rs.getInt("salesperson_id")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return contracts;
+    }
+
 }

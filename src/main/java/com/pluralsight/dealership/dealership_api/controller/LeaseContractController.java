@@ -1,7 +1,7 @@
 package com.pluralsight.dealership.dealership_api.controller;
 
+import com.pluralsight.dealership.dealership_api.dao.LeaseContract;
 import com.pluralsight.dealership.dealership_api.dao.LeaseContractDaoImpl;
-import com.pluralsight.dealership.dealership_api.model.LeaseContract;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +30,18 @@ public class LeaseContractController {
         }
         return new ResponseEntity<>(contract, HttpStatus.OK);
     }
-
     // Add a new lease contract
     @PostMapping
     public ResponseEntity<Void> addLeaseContract(@RequestBody LeaseContract leaseContract) {
-        boolean added = leaseContractDao.addContract(leaseContract);
+        boolean added = leaseContractDao.addContract(leaseContract);  // Pass the instance, not the class name
+
         if (added) {
             return new ResponseEntity<>(HttpStatus.CREATED);  // Successfully created
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // Failed to create
         }
     }
+
 
     // Retrieve all lease contracts
     @GetMapping
