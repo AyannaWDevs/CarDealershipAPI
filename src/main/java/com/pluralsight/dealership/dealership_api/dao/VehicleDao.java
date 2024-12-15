@@ -1,7 +1,9 @@
 package com.pluralsight.dealership.dealership_api.dao;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+@Component
 public interface VehicleDao {
     boolean addVehicle(Vehicle vehicle);
     List<Vehicle> findAllVehicles();

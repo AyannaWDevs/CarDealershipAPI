@@ -1,5 +1,6 @@
 package com.pluralsight.dealership.dealership_api.dao;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ public class VehicleDaoImpl implements VehicleDao {
     private final String dbUrl;
     private final String dbUsername;
     private final String dbPassword;
-
+    private DataSource dataSource;
     public VehicleDaoImpl(String dbUrl, String dbUsername, String dbPassword) {
         this.dbUrl = dbUrl;
         this.dbUsername = dbUsername;
@@ -23,7 +24,7 @@ public class VehicleDaoImpl implements VehicleDao {
     @Override
     public boolean addVehicle(Vehicle vehicle) {
         String query = "INSERT INTO vehicles (vin, make, model, year, price, sold, color, body_style) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.connect()){
+        try (Connection conn = dataSource.getConnection()){
              PreparedStatement stmt = conn.prepareStatement(query);
             stmt.setString(1, vehicle.getVin());
             stmt.setString(2, vehicle.getMake());
