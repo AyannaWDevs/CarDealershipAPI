@@ -2,6 +2,7 @@ package com.pluralsight.dealership.dealership_api.dao;
 
 import com.pluralsight.dealership.dealership_api.config.DatabaseConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.*;
@@ -12,6 +13,14 @@ import java.util.List;
 public class DealershipDao {
     private DataSource dataSource;
 
+    @Value("${db.url}")
+    private String dbUrl;
+
+    @Value("${db.username}")
+    private String dbUsername;
+
+    @Value("${db.password}")
+    private String dbPassword;
     @Autowired
     public DealershipDao(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -96,5 +105,28 @@ public class DealershipDao {
         }
     }
 
+    public Dealership getDealershipById(int id) {
+        String query = "SELECT * FROM dealerships WHERE id = ?";
+        Dealership dealership = null;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);  // Set the ID in the query
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    dealership = new Dealership(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("address"),
+                            rs.getString("phone")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dealership;
+    }
 
 }

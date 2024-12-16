@@ -194,4 +194,54 @@ public class VehicleDaoImpl implements VehicleDao {
             return false;
         }
     }
+    public boolean updateVehicle(Vehicle updatedVehicle, Integer oldVin) {
+        String query = "UPDATE vehicles SET make = ?, model = ?, year = ?, price = ?, color = ?, mileage = ?, type = ? WHERE vin = ?";
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, updatedVehicle.getMake());
+            stmt.setString(2, updatedVehicle.getModel());
+            stmt.setInt(3, updatedVehicle.getYear());
+            stmt.setDouble(4, updatedVehicle.getPrice());
+            stmt.setString(5, updatedVehicle.getColor());
+            stmt.setString(7, updatedVehicle.getType());
+            stmt.setInt(8, oldVin);  // Set the VIN to identify the vehicle
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;  // Returns true if the update was successful
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;  // Return false in case of error
+        }
+    }
+    public Vehicle findVehicleByVin(Integer vehicleVin) {
+        String query = "SELECT * FROM vehicles WHERE vin = ?";
+        Vehicle vehicle = null;
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, vehicleVin);  // Set the VIN parameter
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    vehicle = new Vehicle(
+                            rs.getInt("vin"),
+                            rs.getString("make"),
+                            rs.getString("model"),
+                            rs.getInt("year"),
+                            rs.getDouble("price"),
+                            rs.getString("color"),
+                            rs.getInt("mileage"),
+                            rs.getString("type")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vehicle;  // Return the vehicle or null if not found
+    }
+
+
 }

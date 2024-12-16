@@ -10,6 +10,7 @@ public class Vehicle {
     private String color;
     private String bodyStyle;
     private int mileage;
+    private String type;
 
     // Constructor
     public Vehicle(String vin, String make, String model, int year, double price, boolean sold, String color, String bodyStyle, int mileage) {
@@ -111,4 +112,12 @@ public class Vehicle {
     public void setMileage(int mileage) {
         this.mileage = mileage;
     }
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
+
