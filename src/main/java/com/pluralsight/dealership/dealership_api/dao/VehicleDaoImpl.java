@@ -1,16 +1,21 @@
 package com.pluralsight.dealership.dealership_api.dao;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class VehicleDaoImpl implements VehicleDao {
     private final String dbUrl;
     private final String dbUsername;
     private final String dbPassword;
     private DataSource dataSource;
-    public VehicleDaoImpl(String dbUrl, String dbUsername, String dbPassword) {
+    public VehicleDaoImpl(@Value("${db.url}") String dbUrl,
+                          @Value("${db.username}") String dbUsername,
+                          @Value("${db.password}") String dbPassword) {
         this.dbUrl = dbUrl;
         this.dbUsername = dbUsername;
         this.dbPassword = dbPassword;
@@ -226,14 +231,15 @@ public class VehicleDaoImpl implements VehicleDao {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     vehicle = new Vehicle(
-                            rs.getInt("vin"),
-                            rs.getString("make"),
-                            rs.getString("model"),
-                            rs.getInt("year"),
-                            rs.getDouble("price"),
-                            rs.getString("color"),
-                            rs.getInt("mileage"),
-                            rs.getString("type")
+                            rs.getString("vin"),       // VIN
+                            rs.getString("make"),      // Make
+                            rs.getString("model"),     // Model
+                            rs.getInt("year"),         // Year
+                            rs.getDouble("price"),     // Price
+                            rs.getBoolean("sold"),     // Sold
+                            rs.getString("color"),     // Color
+                            rs.getString("bodyStyle"), // Body Style
+                            rs.getInt("mileage")       // Mileage
                     );
                 }
             }
@@ -242,6 +248,7 @@ public class VehicleDaoImpl implements VehicleDao {
         }
         return vehicle;  // Return the vehicle or null if not found
     }
+
 
 
 }

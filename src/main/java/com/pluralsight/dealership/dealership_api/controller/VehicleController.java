@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class VehicleController {
 
     private final VehicleDao vehicleDao;
+    @Autowired
+    private VehicleDaoImpl vehicleDaoImpl;
 
     @Autowired
     public VehicleController(VehicleDao vehicleDao) {
@@ -47,7 +49,7 @@ public class VehicleController {
 
     @DeleteMapping(path = "/delete/{vin}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public void deleteVehicle(@PathVariable("vin") Integer vehicleVin) {
+    public void deleteVehicle(@PathVariable("vin") String vehicleVin) {
         vehicleDao.deleteVehicle(vehicleVin);
     }
 
@@ -56,7 +58,7 @@ public class VehicleController {
     public Vehicle updateVehicle(@PathVariable("vin") Integer oldVin, @RequestBody Vehicle updatedVehicle) {
         Vehicle existingVehicle = vehicleDao.findVehicleByVin(oldVin);
         if (existingVehicle != null) {
-            VehicleDaoImpl.updateVehicle(updatedVehicle, oldVin);
+            vehicleDaoImpl.updateVehicle(updatedVehicle, oldVin);
             return updatedVehicle;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found");

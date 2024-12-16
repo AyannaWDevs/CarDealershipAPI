@@ -19,4 +19,5 @@ public interface VehicleDao {
 
     boolean deleteVehicle(String vin);
 
+    Vehicle findVehicleByVin(Integer vehicleVin);
 }
