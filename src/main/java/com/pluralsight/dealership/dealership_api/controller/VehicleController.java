@@ -50,8 +50,12 @@ public class VehicleController {
     @DeleteMapping(path = "/delete/{vin}")
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public void deleteVehicle(@PathVariable("vin") String vehicleVin) {
-        vehicleDao.deleteVehicle(vehicleVin);
+        boolean deleted = vehicleDao.deleteVehicle(vehicleVin);
+        if (!deleted) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vehicle not found");
+        }
     }
+
 
     @PutMapping(path = "/update/{vin}")
     @ResponseStatus(code = HttpStatus.OK)
