@@ -77,4 +77,24 @@ public class DealershipDao {
             return false;
         }
     }
+    public boolean updateDealership(int id, Dealership dealership) {
+        String query = "UPDATE dealerships SET name = ?, address = ?, phone = ? WHERE id = ?";
+
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, dealership.getName());
+            stmt.setString(2, dealership.getAddress());
+            stmt.setString(3, dealership.getPhone());
+            stmt.setInt(4, id);  // Use the provided id to update the correct record
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;  // Return true if the record was updated
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;  // Return false in case of an error
+        }
+    }
+
+
 }

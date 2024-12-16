@@ -3,16 +3,23 @@ package com.pluralsight.dealership.dealership_api.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 @Component
+@Repository
 public class LeaseContractDaoImpl implements LeaseContractDao {
-    private final String dbUrl;
-    private final String dbUsername;
-    private final String dbPassword;
 
+        @Value("${db.url}")
+        private String dbUrl;
+
+        @Value("${db.username}")
+        private String dbUsername;
+
+        @Value("${db.password}")
+        private String dbPassword;
     @Autowired
     public LeaseContractDaoImpl(
             @Value("${db.url}") String dbUrl,
