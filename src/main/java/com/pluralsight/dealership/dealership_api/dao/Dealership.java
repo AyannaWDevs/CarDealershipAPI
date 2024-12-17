@@ -2,9 +2,9 @@ package com.pluralsight.dealership.dealership_api.dao;
 
 public class Dealership {
     private int dealershipId; // Primary key
-    private String name;      // Name of the dealership
-    private String address;   // Address of the dealership
-    private String phone;     // Phone number of the dealership
+    private String name;
+    private String address;
+    private String phone;
 
     // Constructor
     public Dealership(int dealershipId, String name, String address, String phone) {

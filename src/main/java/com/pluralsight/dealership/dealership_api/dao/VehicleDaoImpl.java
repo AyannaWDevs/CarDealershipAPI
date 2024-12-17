@@ -231,15 +231,15 @@ public class VehicleDaoImpl implements VehicleDao {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     vehicle = new Vehicle(
-                            rs.getString("vin"),       // VIN
-                            rs.getString("make"),      // Make
-                            rs.getString("model"),     // Model
-                            rs.getInt("year"),         // Year
-                            rs.getDouble("price"),     // Price
-                            rs.getBoolean("sold"),     // Sold
-                            rs.getString("color"),     // Color
-                            rs.getString("bodyStyle"), // Body Style
-                            rs.getInt("mileage")       // Mileage
+                            rs.getString("vin"),
+                            rs.getString("make"),
+                            rs.getString("model"),
+                            rs.getInt("year"),
+                            rs.getDouble("price"),
+                            rs.getBoolean("sold"),
+                            rs.getString("color"),
+                            rs.getString("bodyStyle"),
+                            rs.getInt("mileage")
                     );
                 }
             }

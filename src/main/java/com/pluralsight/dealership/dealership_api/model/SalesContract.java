@@ -8,7 +8,7 @@ public class SalesContract extends Contract {
     private double price;
     private int contractID;
 
-    // Constructor with all fields
+    // Constructor
     public SalesContract(int contractID, String vin, int customerId, int salespersonId, LocalDate salesDate, double price) {
         super(vin, customerId, salespersonId);  // Call to parent constructor (Contract)
         this.contractID = contractID;
@@ -40,7 +40,7 @@ public class SalesContract extends Contract {
                 "\nPrice: $" + price;
     }
 
-    // Getter and Setter for SalesDate
+
     public LocalDate getSalesDate() {
         return salesDate;
     }
@@ -49,7 +49,7 @@ public class SalesContract extends Contract {
         this.salesDate = salesDate;
     }
 
-    // Getter and Setter for Price
+
     public double getPrice() {
         return price;
     }
@@ -58,7 +58,6 @@ public class SalesContract extends Contract {
         this.price = price;
     }
 
-    // Getter and Setter for ContractID
     public void setContractID(int contractID) {
         this.contractID = contractID;
     }
